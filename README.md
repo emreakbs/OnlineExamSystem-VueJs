@@ -1,5 +1,3 @@
-# modern
-
 ## Project setup
 ```
 npm install
