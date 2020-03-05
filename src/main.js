@@ -58,11 +58,16 @@ require('./assets/css/iconfont.css')
 // Global events
 import {globalEvents} from "./globalEvents";
 
+// Service Provider
+import{ServiceProvider} from "./services/ServiceProvider"
+
+
 Vue.config.productionTip = false
 
 new Vue({
   router,
   store,
   globalEvents,
+  ServiceProvider,
   render: h => h(App)
 }).$mount('#app')

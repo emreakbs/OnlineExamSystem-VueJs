@@ -1,0 +1,4 @@
+/* table item per page selected count color and Loading message color */
+.per-page-span-color , .title-loading{
+    color: rgba(var(--vs-primary));
+  }
