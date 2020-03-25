@@ -8,7 +8,7 @@ export const config = {
       "GET_SCHOOL_LIST":"School/School/SchoolList/0",
       "SET_SCHOOL":"School/School/AddSchool",
       "DELETE_SCHOOL":"School/School/RemoveSchool/",
-
+      "EDIT_SCHOOL":"School/School/EditSchool",
     }
   },
   createRequestUrl(url, id, service) {

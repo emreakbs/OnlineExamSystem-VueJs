@@ -1,4 +1,5 @@
 <template>
+<vs-card>
   <div id="data-list-list-view" class="data-list-container">
     <!--    okul ekleme ve güncelleme sidebar'ını açar veya kapatır-->
     <school-add-or-edit-sidebar
@@ -61,6 +62,7 @@
       <template slot="thead">
         <vs-th sort-key="schoolName">Okul Adı</vs-th>
         <vs-th sort-key="schoolWebSite">Web Site</vs-th>
+        <vs-th sort-key="schoolWebSite">Aktif</vs-th>
         <vs-th>Düzenle / Sil</vs-th>
       </template>
 
@@ -73,7 +75,12 @@
           <vs-td>
             <p class="product-name font-medium truncate">{{ tr.schoolWebSite }}</p>
           </vs-td>
-
+          <vs-td>
+            <vs-button type="flat" radius
+                       :icon="tr.status ? 'done':'clear'"
+                       :color="getStatusColor(tr.status)"
+            ></vs-button>
+          </vs-td>
           <vs-td class="whitespace-no-wrap">
             <feather-icon
               icon="EditIcon"
@@ -94,10 +101,12 @@
       </template>
     </vs-table>
   </div>
+  </vs-card>
 </template>
 
 <script>
   import SchoolAddOrEditSidebar from "./School/SchoolAddOrEditSidebar";
+  import {globalEvents} from "../globalEvents";
 
   export default {
     name: "SchoolAdd",
@@ -141,6 +150,9 @@
       }
     },
     methods: {
+      getStatusColor(status) {
+        return globalEvents.getStatusColor(status);
+      },
       openDeleteSchoolDialog(id) {
         this.deleteItemId = id;
         this.$vs.dialog({
@@ -148,16 +160,21 @@
           color: "danger",
           title: `Silmek istediğinize emin misiniz ?`,
           text: "Silme sonrasında işlem geri alınamayacaktır.",
-          accept: this.successAlert,
-          cancel: this.successAlert,
+          accept: this.deleteSchool,
+          cancel: this.cancelAlert,
           acceptText: "Onayla",
           cancelText: "Vazgeç"
         });
       },
-      successAlert() {
+      deleteSchool() {
         this.$store.dispatch("school/removeSchool", this.deleteItemId);
       },
-      toggleDataSidebar(val = false) {
+      cancelAlert() {
+        globalEvents.showAlert("danger", "İptal", "Silme işlemi iptal edildi");
+
+      },
+      toggleDataSidebar(val = false)
+      {
         this.addNewDataSidebar = val;
       },
       editData(data) {

@@ -17,5 +17,10 @@ export const schoolServices = {
     "url": "SCHOOL-DELETE_SCHOOL",
     "deleteId": "id",
     "model": {"id": null}
+  },
+  "EditSchool": {
+    "type": "put",
+    "url": "SCHOOL-EDIT_SCHOOL",
+    "model": {}
   }
 }
