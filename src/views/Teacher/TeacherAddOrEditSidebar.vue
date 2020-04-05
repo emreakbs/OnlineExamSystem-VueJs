@@ -27,6 +27,7 @@
             <vs-input class="w-full" label-placeholder="İkinci Adı" v-model="teacherMediumName" />
           </div>
         </div>
+
         <div class="vx-row mb-2">
           <div class="vx-col w-full">
             <vs-input class="w-full" label-placeholder="Soyadı" v-model="teacherLastName" />
@@ -37,34 +38,66 @@
             <vs-input class="w-full" label-placeholder="Kullanıcı Adı" v-model="teacherNickname" />
           </div>
         </div>
+        <div class="vx-row mb-2" v-if="Object.entries(this.data).length === 0">
+          <div class="vx-col w-full">
+            <vs-input class="w-full" label-placeholder="Şifre" v-model="teacherPassword" />
+          </div>
+        </div>
+        <div class="vx-row mb-2" v-if="Object.entries(this.data).length === 0">
+          <div class="vx-col w-full">
+            <vs-input
+              class="w-full"
+              label-placeholder="Şifre (Tekrar)"
+              v-model="teacherPasswordRetry"
+            />
+          </div>
+        </div>
         <div class="vx-row mb-2">
           <div class="vx-col w-full">
             <vs-input class="w-full" label-placeholder="Mail" v-model="teacherMail" />
           </div>
         </div>
         <div class="vx-row mb-2">
-          <div class="vx-col w-full">
-            <vs-input class="w-full" label-placeholder="Branş" v-model="teacherBranch" />
+          <div class="vx-col w-full mt-4">
+            <v-select
+              id="branchName"
+              label="branchName"
+              v-model="teacherBranch"
+              :options="branchList"
+            />
           </div>
         </div>
         <div class="vx-row mb-2">
-          <div class="vx-col w-full">
-            <vs-input class="w-full" label-placeholder="Yetki" v-model="teacherPosition" />
+          <div class="vx-col w-full mt-4">
+            <v-select
+              id="teacherPosition"
+              label="teacherPosition"
+              v-model="teacherPosition"
+              :options="positionList"
+            />
           </div>
         </div>
         <div class="vx-row mb-2">
-          <div class="vx-col w-full">
-            <vs-input class="w-full" label-placeholder="Departman" v-model="departmentId" />
+          <div class="vx-col w-full mt-4">
+            <v-select
+              id="departmentId"
+              label="departmentName"
+              v-model="departmentId"
+              :options="departmentList"
+            />
           </div>
         </div>
-  
       </div>
     </VuePerfectScrollbar>
 
     <div class="flex flex-wrap items-center p-6" slot="footer">
-      <vs-button class="mr-6" @click="submitData" :disabled="!isFormValid">Gönder</vs-button>
+      <vs-button
+        class="mr-6"
+        @click="submitData( teacherId ? 'edit' : 'add')"
+        :disabled="!isFormValid"
+      >Gönder</vs-button>
       <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">Vazgeç</vs-button>
-      <vs-switch class="ml-5" style="width:100px" color="success" v-model="teacherStatus">
+      <vs-switch class="ml-5" style="width:100px" color="success" v-model="status">
         <span slot="on">Aktif durumda</span>
         <span slot="off">Pasif durumda</span>
       </vs-switch>
@@ -89,6 +122,12 @@ export default {
   },
 
   computed: {
+    branchList() {
+      return this.$store.state.branch.branchList;
+    },
+    departmentList() {
+      return this.$store.state.department.departmentList;
+    },
     isSidebarActiveLocal: {
       get() {
         return this.isSidebarActive;
@@ -96,32 +135,54 @@ export default {
       set(val) {
         if (!val) {
           this.$emit("closeSidebar");
-          // this.initValues()
+          this.initValues();
         }
       }
     },
     isFormValid() {
-      return this.teacherFirstName && this.teacherLastName;
+      if (Object.entries(this.data).length === 0) {
+        return (
+          this.teacherFirstName &&
+          this.teacherLastName &&
+          this.teacherNickname &&
+          this.teacherMail &&
+          this.teacherBranch &&
+          this.teacherPosition &&
+          this.departmentId &&
+          this.teacherPassword === this.teacherPasswordRetry
+        );
+      }
+      return (
+        this.teacherFirstName &&
+        this.teacherLastName &&
+        this.teacherNickname &&
+        this.teacherMail &&
+        this.teacherBranch &&
+        this.teacherPosition &&
+        this.departmentId
+      );
     }
   },
   data() {
     return {
-      radios2: "primary",
-      teacherId: 1,
+      options: [],
+      positionList: [
+        { teacherPosition: "Yönetici", id: 1 },
+        { teacherPosition: "Öğretmen", id: 2 }
+      ],
+      teacherId: null,
       teacherFirstName: "",
       teacherMediumName: "",
       teacherLastName: "",
       teacherMail: "",
       teacherNickname: "",
       teacherPassword: "",
-      teacherStatus: null,
       teacherPasswordRetry: "",
-      teacherBranch: 1,
-      teacherPosition: 1,
-      departmentId: 1,
-
+      teacherBranch: null,
+      teacherPosition: null,
+      departmentId: null,
+      status: false,
       settings: {
-        // perfectscrollbar settings
         maxScrollbarLength: 60,
         wheelSpeed: 0.6
       }
@@ -130,43 +191,50 @@ export default {
   methods: {
     initValues() {
       if (this.data.teacherId) return;
-      this.teacherId = 1;
+      this.teacherId = null;
       this.teacherFirstName = "";
       this.teacherMediumName = "";
       this.teacherLastName = "";
       this.teacherMail = "";
       this.teacherNickname = "";
       this.teacherPassword = "";
-      this.teacherStatus = null;
       this.teacherPasswordRetry = "";
-      this.teacherBranch = "";
+      this.teacherBranch = null;
       this.teacherPosition = "";
       this.departmentId = "";
+      this.status = false;
     },
-    submitData() {
-      this.$validator.validateAll().then(result => {
-        if (result) {
-          // const obj = {
-          //   id: this.dataId,
-          //   name: this.dataName,
-          //   img: this.dataImg,
-          //   category: this.dataCategory,
-          //   order_status: this.dataOrder_status,
-          //   price: this.dataPrice
-          // }
-          //
-          // if(this.dataId !== null && this.dataId >= 0) {
-          //   // this.$store.dispatch("dataList/updateItem", obj).catch(err => { console.error(err) })
-          // }else{
-          //   delete obj.id
-          //   obj.popularity = 0
-          //   // this.$store.dispatch("dataList/addItem", obj).catch(err => { console.error(err) })
-          // }
+    submitData(event) {
+      let addData = {
+        teacherFirstName: this.teacherFirstName,
+        teacherMediumName: this.teacherMediumName,
+        teacherLastName: this.teacherLastName,
+        teacherMail: this.teacherMail,
+        teacherUserName: this.teacherNickname,
+        teacherPassword: this.teacherPassword,
+        userLevel: this.teacherPosition[0]
+          ? this.teacherPosition[0].id
+          : this.teacherPosition.id,
+        departmentId: this.departmentId[0]
+          ? this.departmentId[0].id
+          : this.departmentId.id,
+        branchId: this.teacherBranch[0]
+          ? this.teacherBranch[0].id
+          : this.teacherBranch.id,
+        status: this.status
+      };
+      if (event == "add") {
+        addData.teacherPasswordRetry = this.teacherPasswordRetry;
 
-          this.$emit("closeSidebar");
-          this.initValues();
-        }
-      });
+        this.$store.dispatch("teacher/setTeacher", addData);
+      } else {
+        addData.id = this.teacherId;
+        this.$store.dispatch("teacher/editTeacher", addData);
+      }
+      this.isSidebarActiveLocal = false;
+    },
+    positionFilter(id) {
+      return this.positionList.filter(item => item.id == id);
     }
   },
   components: {
@@ -182,33 +250,34 @@ export default {
         this.$validator.reset();
       } else {
         let {
-          teacherId,
+          id,
           teacherFirstName,
           teacherMediumName,
           teacherLastName,
           teacherMail,
-          teacherNickname,
+          teacherUserName,
           teacherPassword,
-          teacherStatus,
           teacherPasswordRetry,
-          teacherBranch,
-          teacherPosition,
-          departmentId
+          branch,
+          userLevel,
+          department,
+          status
         } = JSON.parse(JSON.stringify(this.data));
-        this.teacherId = teacherId;
+        this.teacherId = id;
         this.teacherFirstName = teacherFirstName;
         this.teacherMediumName = teacherMediumName;
         this.teacherLastName = teacherLastName;
         this.teacherMail = teacherMail;
-        this.teacherNickname = teacherNickname;
+        this.teacherNickname = teacherUserName;
         this.teacherPassword = teacherPassword;
-        this.teacherStatus = teacherStatus;
         this.teacherPasswordRetry = teacherPasswordRetry;
-        this.teacherBranch = teacherBranch;
-        this.teacherPosition = teacherPosition;
-        this.departmentId = departmentId;
+        this.teacherBranch = [{ branchName: branch.branchName, id: branch.id }];
+        this.teacherPosition = this.positionFilter(userLevel);
+        this.departmentId = [
+          { departmentName: department.departmentName, id: department.id }
+        ];
+        this.status = status;
       }
-      // Object.entries(this.data).length === 0 ? this.initValues() : { this.dataId, this.dataName, this.dataCategory, this.dataOrder_status, this.dataPrice } = JSON.parse(JSON.stringify(this.data))
     }
   }
 };
@@ -241,7 +310,6 @@ export default {
 }
 
 .scroll-area--data-list-add-new {
-  // height: calc(var(--vh, 1vh) * 100 - 4.3rem);
   height: calc(var(--vh, 1vh) * 100 - 16px - 45px - 82px);
 }
 </style>

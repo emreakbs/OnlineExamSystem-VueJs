@@ -76,6 +76,28 @@ const router = new Router({
             ],
           }
         },
+        {
+          path: '/bransislemleri',
+          name: 'bransislemleri',
+          component: () => import('./views/Branch.vue'),
+          meta: {
+            breadcrumb: [
+              { title: '', url: '/' },
+              { title: 'Branş İşlemleri', active: true },
+            ],
+          }
+        },
+        {
+          path: '/bolumislemleri',
+          name: 'bolumislemleri',
+          component: () => import('./views/Department.vue'),
+          meta: {
+            breadcrumb: [
+              { title: '', url: '/' },
+              { title: 'Bölüm İşlemleri', active: true },
+            ],
+          }
+        },
       ],
     },
 

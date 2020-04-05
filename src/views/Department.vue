@@ -1,8 +1,7 @@
 <template>
-<vs-card>
+  <vs-card>
   <div id="data-list-list-view" class="data-list-container">
-    <!--    okul ekleme ve güncelleme sidebar'ını açar veya kapatır-->
-    <school-add-or-edit-sidebar
+    <department-add-or-edit-sidebar
       :isSidebarActive="addNewDataSidebar"
       @closeSidebar="toggleDataSidebar"
       :data="sidebarData"
@@ -20,7 +19,7 @@
       <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
         <div class="flex flex-wrap-reverse items-center data-list-btn-container">
           <!-- ADD NEW -->
-          <vx-tooltip text="Okul Ekle">
+          <vx-tooltip text="Bölüm Ekle">
             <div
               class="p-4 border border-solid mb-4 d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-small"
               @click="addNewData"
@@ -60,20 +59,19 @@
       </div>
 
       <template slot="thead">
+        <vs-th sort-key="departmentName">Bölüm Adı</vs-th>
         <vs-th sort-key="schoolName">Okul Adı</vs-th>
-        <vs-th sort-key="schoolWebSite">Web Site</vs-th>
-        <vs-th sort-key="schoolWebSite">Aktif</vs-th>
+        <vs-th sort-key="status">Aktiflik Durumu</vs-th>
         <vs-th>Düzenle / Sil</vs-th>
       </template>
-
       <template slot-scope="{data}">
         <tbody>
         <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
           <vs-td>
-            <p class="product-name font-medium truncate">{{ tr.schoolName }}</p>
+            <p class="product-name font-medium truncate">{{ tr.departmentName}}</p>
           </vs-td>
           <vs-td>
-            <p class="product-name font-medium truncate">{{ tr.schoolWebSite }}</p>
+            <p class="product-name font-medium truncate">{{ tr.school.schoolName}}</p>
           </vs-td>
           <vs-td>
             <vs-button type="flat" radius
@@ -93,7 +91,7 @@
               tooltip="sil"
               svgClasses="w-5 h-5 hover:text-danger stroke-current"
               class="ml-2"
-              @click.stop="openDeleteSchoolDialog(tr.id)"
+              @click.stop="openDeleteDepartmentDialog(tr.id)"
             />
           </vs-td>
         </vs-tr>
@@ -104,27 +102,26 @@
   </vs-card>
 </template>
 
+
 <script>
-  import SchoolAddOrEditSidebar from "./School/SchoolAddOrEditSidebar";
+  import DepartmentAddOrEditSidebar from "./Department/DepartmentAddOrEditSidebar";
   import {globalEvents} from "../globalEvents";
 
   export default {
-    name: "SchoolAdd",
+    name: "DepartmentAdd",
     components: {
-      SchoolAddOrEditSidebar
+      DepartmentAddOrEditSidebar
     },
     created() {
+      this.$store.dispatch("department/getDepartments");
       this.$store.dispatch("school/getSchools");
     },
     data() {
       return {
         activeConfirm: false,
-
         selected: [],
-        // products: [],
         itemsPerPage: 5,
         isMounted: false,
-
         // Data Sidebar
         addNewDataSidebar: false,
         sidebarData: {},
@@ -134,40 +131,34 @@
     watch: {},
     computed: {
       data() {
-        return this.$store.state.school.schoolList
+        return this.$store.state.department.departmentList
       },
       currentPage() {
         if (this.isMounted) {
           return this.$refs.table.currentx;
         }
         return 0;
-      },
-      products() {
-        // return this.$store.state.dataList.products
-      },
-      queriedItems() {
-        // return this.$refs.table ? this.$refs.table.queriedResults.length : this.products.length
       }
     },
     methods: {
       getStatusColor(status) {
         return globalEvents.getStatusColor(status);
       },
-      openDeleteSchoolDialog(id) {
+      openDeleteDepartmentDialog(id) {
         this.deleteItemId = id;
         this.$vs.dialog({
           type: "confirm",
           color: "danger",
           title: `Silmek istediğinize emin misiniz ?`,
           text: "Silme sonrasında işlem geri alınamayacaktır.",
-          accept: this.deleteSchool,
+          accept: this.deleteDepartment,
           cancel: this.cancelAlert,
           acceptText: "Onayla",
           cancelText: "Vazgeç"
         });
       },
-      deleteSchool() {
-        this.$store.dispatch("school/removeSchool", this.deleteItemId);
+      deleteDepartment() {
+        this.$store.dispatch("department/removeDepartment", this.deleteItemId);
       },
       cancelAlert() {
         globalEvents.showAlert("danger", "İptal", "Silme işlemi iptal edildi");
@@ -189,5 +180,6 @@
   };
 </script>
 
-<style lang="scss">
+<style>
+
 </style>

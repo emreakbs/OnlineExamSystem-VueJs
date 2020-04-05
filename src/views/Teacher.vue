@@ -22,7 +22,7 @@
             <!-- ADD NEW TEACHER-->
             <vx-tooltip text="Öğretmen Ekle">
               <div
-                class="p-4 border border-solid mb-4 d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-small "
+                class="p-4 border border-solid mb-4 d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-small"
                 @click="addNewData"
               >
                 <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
@@ -63,11 +63,11 @@
         <template slot="thead">
           <vs-th sort-key="teacherFirstName">ADI SOYADI</vs-th>
           <vs-th sort-key="teacherMail">MAİL</vs-th>
-          <vs-th sort-key="teacherNickName">KULLANICI ADI</vs-th>
-          <vs-th sort-key="teacherStatus">AKTİF</vs-th>
-          <vs-th sort-key="teacherBranch">BRANŞ</vs-th>
+          <vs-th sort-key="teacherUserName">KULLANICI ADI</vs-th>
+          <vs-th sort-key="status">AKTİF</vs-th>
+          <vs-th sort-key="branchName">BRANŞ</vs-th>
           <vs-th sort-key="teacherPosition">YETKİ</vs-th>
-          <vs-th sort-key="departmentId">DEPARTMAN</vs-th>
+          <vs-th sort-key="department.departmentName">BÖLÜM</vs-th>
           <vs-th>Düzenle / Sil</vs-th>
         </template>
 
@@ -84,24 +84,24 @@
                 <p class="font-medium truncate">{{ tr.teacherMail }}</p>
               </vs-td>
               <vs-td>
-                <p class="font-medium truncate">{{ tr.teacherNickname }}</p>
+                <p class="font-medium truncate">{{ tr.teacherUserName }}</p>
               </vs-td>
               <vs-td>
                 <vs-button
                   type="flat"
                   radius
-                  :icon="tr.teacherStatus ? 'done':'clear'"
-                  :color="getStatusColor(tr.teacherStatus)"
+                  :icon="tr.status ? 'done':'clear'"
+                  :color="getStatusColor(tr.status)"
                 ></vs-button>
               </vs-td>
               <vs-td>
-                <p class="font-medium truncate">{{ tr.teacherBranch }}</p>
+                <p class="font-medium truncate">{{ tr.branch.branchName }}</p>
               </vs-td>
               <vs-td>
-                <p class="font-medium truncate">{{ tr.teacherPosition }}</p>
+                <p class="font-medium truncate">{{positionFilter(tr.userLevel)}}</p>
               </vs-td>
               <vs-td>
-                <p class="font-medium truncate">{{ tr.departmentId }}</p>
+                <p class="font-medium truncate">{{ tr.department.departmentName }}</p>
               </vs-td>
 
               <!--EDIT OR DELETE COLUMN-->
@@ -116,7 +116,7 @@
                   tooltip="sil"
                   svgClasses="w-5 h-5 hover:text-danger"
                   class="ml-2"
-                  @click.stop="openDeleteSchoolDialog"
+                  @click.stop="openDeleteTeacherDialog(tr.id)"
                 />
               </vs-td>
             </vs-tr>
@@ -130,7 +130,6 @@
 <script>
 import TeacherAddOrEditSidebar from "./Teacher/TeacherAddOrEditSidebar";
 import { globalEvents } from "../globalEvents";
-
 export default {
   name: "Teacher",
   components: {
@@ -139,102 +138,57 @@ export default {
   data() {
     return {
       activeConfirm: false,
-      data: [
-        {
-          teacherId: 1,
-          teacherFirstName: "Muhammed",
-          teacherMediumName: "Emre",
-          teacherLastName: "NEFESLİ",
-          teacherMail: "menefesli@gmail.com",
-          teacherNickname: "menefesli",
-          teacherPassword: "123456",
-          teacherStatus: true,
-          teacherPasswordRetry: "",
-          teacherBranch: 1,
-          teacherPosition: 1,
-          departmentId: 1
-        },
-        {
-          teacherId: 1,
-          teacherFirstName: "Emre",
-          teacherMediumName: "",
-          teacherLastName: "AKBAŞ",
-          teacherMail: "eakbas@gmail.com",
-          teacherNickname: "eakbas",
-          teacherPassword: "123456",
-          teacherStatus: false,
-          teacherPasswordRetry: "",
-          teacherBranch: 1,
-          teacherPosition: 1,
-          departmentId: 1
-        },
-        {
-          teacherId: 1,
-          teacherFirstName: "Mustafa",
-          teacherMediumName: "Levent",
-          teacherLastName: "AYDEMİR",
-          teacherMail: "mlaydemir@gmail.com",
-          teacherNickname: "mlaydemir",
-          teacherPassword: "123456",
-          teacherStatus: true,
-          teacherPasswordRetry: "",
-          teacherBranch: 1,
-          teacherPosition: 1,
-          departmentId: 1
-        },
-        {
-          teacherId: 1,
-          teacherFirstName: "Burak",
-          teacherMediumName: "",
-          teacherLastName: "POLATKAN",
-          teacherMail: "bpolatkan@gmail.com",
-          teacherNickname: "bpolatkan",
-          teacherPassword: "123456",
-          teacherStatus: true,
-          teacherPasswordRetry: "",
-          teacherBranch: 1,
-          teacherPosition: 1,
-          departmentId: 1
-        }
-      ],
+deleteItemId:null,
       selected: [],
       itemsPerPage: 5,
       isMounted: false,
 
       // Data Sidebar
       addNewDataSidebar: false,
-      sidebarData: {}
+      sidebarData: {},
+       positionList: [
+        { teacherPosition: "Yönetici", id: 1 },
+        { teacherPosition: "Öğretmen", id: 2 }
+      ],
     };
   },
 
   computed: {
+    data() {
+      return this.$store.state.teacher.teacherList;
+    },
     currentPage() {
       if (this.isMounted) {
         return this.$refs.table.currentx;
       }
       return 0;
-    },
-
-    queriedItems() {
-      // return this.$refs.table ? this.$refs.table.queriedResults.length : this.products.length
     }
   },
   methods: {
     getStatusColor(status) {
       return globalEvents.getStatusColor(status);
     },
-    openDeleteSchoolDialog() {
+    openDeleteTeacherDialog(id) {
+        this.deleteItemId = id;
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
         title: `Silmek istediğinize emin misiniz ?`,
         text: "Silme sonrasında işlem geri alınamayacaktır.",
-        accept: this.showAcceptAlert,
+        accept: this.deleteTeacher,
         cancel: this.showCancelAlert,
         acceptText: "Onayla",
         cancelText: "Vazgeç"
       });
     },
+    positionFilter(id) {
+      let position=this.positionList.filter(item => item.id == id);
+      return position[0].teacherPosition;
+    
+    },
+    deleteTeacher() {
+        this.$store.dispatch("teacher/removeTeacher", this.deleteItemId);
+      },
     showAcceptAlert() {
       globalEvents.showAlert("success", "Başarılı", "Silme işlemi tamamlandı");
     },
@@ -251,14 +205,12 @@ export default {
     addNewData() {
       this.sidebarData = {};
       this.toggleDataSidebar(true);
-    },
-    deleteData(id) {}
+    }
   },
   created() {
-    globalEvents.openLoading();
-    setTimeout(() => {
-      globalEvents.closeLoading();
-    }, 1000);
+    this.$store.dispatch("branch/getBranches");
+    this.$store.dispatch("department/getDepartments");
+    this.$store.dispatch("teacher/getTeachers");
   }
 };
 </script>

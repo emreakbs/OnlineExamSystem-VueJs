@@ -1,8 +1,8 @@
 <template>
-<vs-card>
+  <vs-card>
   <div id="data-list-list-view" class="data-list-container">
     <!--    okul ekleme ve güncelleme sidebar'ını açar veya kapatır-->
-    <school-add-or-edit-sidebar
+    <branch-add-or-edit-sidebar
       :isSidebarActive="addNewDataSidebar"
       @closeSidebar="toggleDataSidebar"
       :data="sidebarData"
@@ -20,7 +20,7 @@
       <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
         <div class="flex flex-wrap-reverse items-center data-list-btn-container">
           <!-- ADD NEW -->
-          <vx-tooltip text="Okul Ekle">
+          <vx-tooltip text="Braanş Ekle">
             <div
               class="p-4 border border-solid mb-4 d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-small"
               @click="addNewData"
@@ -60,9 +60,8 @@
       </div>
 
       <template slot="thead">
-        <vs-th sort-key="schoolName">Okul Adı</vs-th>
-        <vs-th sort-key="schoolWebSite">Web Site</vs-th>
-        <vs-th sort-key="schoolWebSite">Aktif</vs-th>
+        <vs-th sort-key="branchName">Branş Adı</vs-th>
+        <vs-th sort-key="status">Aktif</vs-th>
         <vs-th>Düzenle / Sil</vs-th>
       </template>
 
@@ -70,10 +69,7 @@
         <tbody>
         <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
           <vs-td>
-            <p class="product-name font-medium truncate">{{ tr.schoolName }}</p>
-          </vs-td>
-          <vs-td>
-            <p class="product-name font-medium truncate">{{ tr.schoolWebSite }}</p>
+            <p class="product-name font-medium truncate">{{ tr.branchName }}</p>
           </vs-td>
           <vs-td>
             <vs-button type="flat" radius
@@ -93,7 +89,7 @@
               tooltip="sil"
               svgClasses="w-5 h-5 hover:text-danger stroke-current"
               class="ml-2"
-              @click.stop="openDeleteSchoolDialog(tr.id)"
+              @click.stop="openDeleteBranchDialog(tr.id)"
             />
           </vs-td>
         </vs-tr>
@@ -104,17 +100,18 @@
   </vs-card>
 </template>
 
+
 <script>
-  import SchoolAddOrEditSidebar from "./School/SchoolAddOrEditSidebar";
+  import BranchAddOrEditSidebar from "./Branch/BranchAddOrEditSidebar";
   import {globalEvents} from "../globalEvents";
 
   export default {
-    name: "SchoolAdd",
+    name: "BranchAdd",
     components: {
-      SchoolAddOrEditSidebar
+      BranchAddOrEditSidebar
     },
     created() {
-      this.$store.dispatch("school/getSchools");
+      this.$store.dispatch("branch/getBranches");
     },
     data() {
       return {
@@ -134,7 +131,7 @@
     watch: {},
     computed: {
       data() {
-        return this.$store.state.school.schoolList
+        return this.$store.state.branch.branchList
       },
       currentPage() {
         if (this.isMounted) {
@@ -153,21 +150,21 @@
       getStatusColor(status) {
         return globalEvents.getStatusColor(status);
       },
-      openDeleteSchoolDialog(id) {
+      openDeleteBranchDialog(id) {
         this.deleteItemId = id;
         this.$vs.dialog({
           type: "confirm",
           color: "danger",
           title: `Silmek istediğinize emin misiniz ?`,
           text: "Silme sonrasında işlem geri alınamayacaktır.",
-          accept: this.deleteSchool,
+          accept: this.deleteBranch,
           cancel: this.cancelAlert,
           acceptText: "Onayla",
           cancelText: "Vazgeç"
         });
       },
-      deleteSchool() {
-        this.$store.dispatch("school/removeSchool", this.deleteItemId);
+      deleteBranch() {
+        this.$store.dispatch("branch/removeBranch", this.deleteItemId);
       },
       cancelAlert() {
         globalEvents.showAlert("danger", "İptal", "Silme işlemi iptal edildi");
@@ -184,10 +181,13 @@
       addNewData() {
         this.sidebarData = {};
         this.toggleDataSidebar(true);
+      },
+      deleteData(id) {
       }
     }
   };
 </script>
 
-<style lang="scss">
+<style>
+
 </style>

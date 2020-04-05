@@ -1,6 +1,5 @@
 export const config = {
   "SERVICES": {
-
     "DEFAULT_SERVICE_URL":"http://localhost:30000/",
   },
   "MODULES": {
@@ -9,7 +8,25 @@ export const config = {
       "SET_SCHOOL":"School/School/AddSchool",
       "DELETE_SCHOOL":"School/School/RemoveSchool/",
       "EDIT_SCHOOL":"School/School/EditSchool",
-    }
+    },
+    "BRANCH":{
+      "GET_BRANCH_LIST":"Branch/Branch/BranchList/",
+      "SET_BRANCH":"Branch/Branch/AddBranch",
+      "DELETE_BRANCH":"Branch/Branch/RemoveBranch/",
+      "EDIT_BRANCH":"Branch/Branch/EditBranch",
+    },
+    "DEPARTMENT":{
+      "GET_DEPARTMENT_LIST":"Department/Department/DepartmentList",
+      "SET_DEPARTMENT":"Department/Department/AddDepartment",
+      "DELETE_DEPARTMENT":"Department/Department/RemoveDepartment/",
+      "EDIT_DEPARTMENT":"Department/Department/EditDepartment",
+    },
+    "TEACHER":{
+      "GET_TEACHER_LIST":"Teacher/Teacher/TeacherList",
+      "SET_TEACHER":"Teacher/Teacher/AddTeacher",
+      "DELETE_TEACHER":"Teacher/Teacher/RemoveTeacher/",
+      "EDIT_TEACHER":"Teacher/Teacher/EditTeacher",
+    },
   },
   createRequestUrl(url, id, service) {
     let _url;

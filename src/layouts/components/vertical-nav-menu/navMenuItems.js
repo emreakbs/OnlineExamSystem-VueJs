@@ -21,6 +21,17 @@ export default [
         slug: "ogretmenislemleri",
         icon: "UserIcon",
       },
+      {
+        url: "/bransislemleri",
+        name: "Branş İşlemleri",
+        slug: "bransislemleri",
+        icon: "UserIcon",
+      },{
+        url: "/bolumislemleri",
+        name: "Bölüm İşlemleri",
+        slug: "bolumislemleri",
+        icon: "UserIcon",
+      },
     ]
   }
 ]
