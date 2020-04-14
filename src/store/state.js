@@ -13,7 +13,7 @@ const userDefaults = {
   about       : "Dessert chocolate cake lemon drops jujubes. Biscuit cupcake ice cream bear claw brownie brownie marshmallow.",
   photoURL    : require("@/assets/images/portrait/small/avatar-s-11.jpg"), // From Auth
   status      : "online",
-  userRole    : "Admin"
+  userRole    : "Master Admin"
 }
 
 // /////////////////////////////////////////////

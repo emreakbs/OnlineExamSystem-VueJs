@@ -83,7 +83,7 @@
               id="departmentId"
               label="departmentName"
               v-model="departmentId"
-              :options="departmentList"
+              :options="departmentListSchoolName"
             />
           </div>
         </div>
@@ -125,8 +125,8 @@ export default {
     branchList() {
       return this.$store.state.branch.branchList;
     },
-    departmentList() {
-      return this.$store.state.department.departmentList;
+    departmentListSchoolName() {
+      return this.$store.state.department.departmentListSchoolName;
     },
     isSidebarActiveLocal: {
       get() {

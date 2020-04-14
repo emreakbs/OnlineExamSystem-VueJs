@@ -1,5 +1,8 @@
 module.exports = {
   publicPath: '/',
+  devServer: {
+    host: "onlinesinav.local"
+  },
   transpileDependencies: [
     'vue-echarts',
     'resize-detector'

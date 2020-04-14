@@ -4,6 +4,12 @@ export const departmentServices = {
     "url": "DEPARTMENT-GET_DEPARTMENT_LIST",
     "model": []
   },
+  "GetDepartmentListSchoolName": {
+    "type": "get",
+    "url": "DEPARTMENT-GET_DEPARTMENT_LIST_SCHOOL_NAME",
+    "getId": "id",
+    "model": {"id": "getId"}
+  },
   "SetDepartment": {
     "type": "post",
     "url": "DEPARTMENT-SET_DEPARTMENT",

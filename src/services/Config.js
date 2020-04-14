@@ -17,6 +17,7 @@ export const config = {
     },
     "DEPARTMENT":{
       "GET_DEPARTMENT_LIST":"Department/Department/DepartmentList",
+      "GET_DEPARTMENT_LIST_SCHOOL_NAME":"Department/Department/DepartmentList/",
       "SET_DEPARTMENT":"Department/Department/AddDepartment",
       "DELETE_DEPARTMENT":"Department/Department/RemoveDepartment/",
       "EDIT_DEPARTMENT":"Department/Department/EditDepartment",

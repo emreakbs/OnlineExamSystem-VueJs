@@ -11,6 +11,15 @@ export default {
       globalEvents.showAlert("danger", "Hata !!", message);
     })
   },
+  getDepartmentsSchoolName: ({commit},payload) => {
+    departmentServices.GetDepartmentListSchoolName.model.id=payload;
+    serviceProvider.create(departmentServices.GetDepartmentListSchoolName).then(res => {
+      commit("setStateDepartmentListSchoolName", res.data)
+    }).catch(err => {
+      let message = err.response.data ? err.response.data : "";
+      globalEvents.showAlert("danger", "Hata !!", message);
+    })
+  },
   setDepartment: ({commit, dispatch}, payload) => {
     departmentServices.SetDepartment.model = payload;
     serviceProvider.create(departmentServices.SetDepartment).then(res => {

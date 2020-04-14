@@ -209,7 +209,7 @@ deleteItemId:null,
   },
   created() {
     this.$store.dispatch("branch/getBranches");
-    this.$store.dispatch("department/getDepartments");
+    this.$store.dispatch("department/getDepartmentsSchoolName",true);
     this.$store.dispatch("teacher/getTeachers");
   }
 };

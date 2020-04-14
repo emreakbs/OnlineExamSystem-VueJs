@@ -25,12 +25,12 @@ export default [
         url: "/bransislemleri",
         name: "Branş İşlemleri",
         slug: "bransislemleri",
-        icon: "UserIcon",
+        icon: "PenToolIcon",
       },{
         url: "/bolumislemleri",
         name: "Bölüm İşlemleri",
         slug: "bolumislemleri",
-        icon: "UserIcon",
+        icon: "GitPullRequestIcon",
       },
     ]
   }
