@@ -20,7 +20,7 @@
       <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
         <div class="flex flex-wrap-reverse items-center data-list-btn-container">
           <!-- ADD NEW -->
-          <vx-tooltip text="Braanş Ekle">
+          <vx-tooltip text="Branş Ekle">
             <div
               class="p-4 border border-solid mb-4 d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-small"
               @click="addNewData"

@@ -6,8 +6,8 @@
     <vs-dropdown-menu class="notification-dropdown dropdown-custom vx-navbar-dropdown">
 
       <div class="notification-top text-center p-5 bg-primary text-white">
-        <h3 class="text-white">{{ unreadNotifications.length }} New</h3>
-        <p class="opacity-75">App Notifications</p>
+        <h3 class="text-white">{{ unreadNotifications.length }} Yeni</h3>
+        <p class="opacity-75">Uygulama Bildirimleri</p>
       </div>
 
       <VuePerfectScrollbar ref="mainSidebarPs" class="scroll-area--nofications-dropdown p-0 mb-10" :settings="settings" :key="$vs.rtl">
@@ -42,7 +42,7 @@
         border-solid
         d-theme-border-grey-light
         cursor-pointer">
-        <span>View All Notifications</span>
+        <span>Tüm Bildirimleri Gör</span>
       </div>
     </vs-dropdown-menu>
   </vs-dropdown>
@@ -60,40 +60,33 @@ export default {
       unreadNotifications: [
           {
             index    : 0,
-            title    : 'New Message',
-            msg      : 'Are your going to meet me tonight?',
+            title    : 'Bildirim Başlığı',
+            msg      : 'Bildirim İçeriği',
             icon     : 'MessageSquareIcon',
             time     : this.randomDate({sec: 10}),
             category : 'primary'
           },
           { index    : 1,
-            title    : 'New Order Recieved',
-            msg      : 'You got new order of goods.',
+            title    : 'Bildirim Başlığı',
+            msg      : 'Bildirim İçeriği',
             icon     : 'PackageIcon',
             time     : this.randomDate({sec: 40}),
             category : 'success'
           },
           { index    : 2,
-            title    : 'Server Limit Reached!',
-            msg      : 'Server have 99% CPU usage.',
+            title    : 'Bildirim Başlığı',
+            msg      : 'Bildirim İçeriği',
             icon     : 'AlertOctagonIcon',
             time     : this.randomDate({min: 1}),
             category : 'danger'
           },
           { index    : 3,
-            title    : 'New Mail From Peter',
-            msg      : 'Cake sesame snaps cupcake',
+            title    : 'Bildirim Başlığı',
+            msg      : 'Bildirim İçeriği',
             icon     : 'MailIcon',
             time     : this.randomDate({min: 6}),
             category : 'primary'
-          },
-          { index    : 4,
-            title    : 'Bruce\'s Party',
-            msg      : 'Chocolate cake oat cake tiramisu',
-            icon     : 'CalendarIcon',
-            time     : this.randomDate({hr: 2}),
-            category : 'warning'
-          },
+          }
       ],
       settings: {
         maxScrollbarLength: 60,
@@ -123,18 +116,18 @@ export default {
       var years   = timeDiff
 
       if (years > 0) {
-        return years + (years > 1 ? ' Years ' : ' Year ') + 'ago'
+        return years + (years > 1 ? ' Yıl ' : ' Yıl ') + 'önce'
       } else if (days > 0) {
-        return days + (days > 1 ? ' Days ' : ' Day ') + 'ago'
+        return days + (days > 1 ? ' Gün ' : ' Gün ') + 'önce'
       } else if (hours > 0) {
-        return hours + (hours > 1 ? ' Hrs ' : ' Hour ') + 'ago'
+        return hours + (hours > 1 ? ' Saat ' : ' Saat ') + 'önce'
       } else if (minutes > 0) {
-        return minutes + (minutes > 1 ? ' Mins ' : ' Min ') + 'ago'
+        return minutes + (minutes > 1 ? ' Dakika ' : ' Dakika ') + 'önce'
       } else if (seconds > 0) {
-        return seconds + (seconds > 1 ? ' sec ago' : 'just now')
+        return seconds + (seconds > 1 ? ' Saniye önce' : 'şimdi')
       }
 
-      return 'Just Now'
+      return 'Şimdi'
     },
     // Method for creating dummy notification time
     randomDate({ hr, min, sec }) {

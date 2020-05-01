@@ -61,12 +61,12 @@
 
         <!-- TABLE HEAD -->
         <template slot="thead">
-          <vs-th sort-key="teacherFirstName">ADI SOYADI</vs-th>
-          <vs-th sort-key="teacherMail">MAİL</vs-th>
-          <vs-th sort-key="teacherUserName">KULLANICI ADI</vs-th>
+          <vs-th sort-key="userFirstName">ADI SOYADI</vs-th>
+          <vs-th sort-key="userMail">MAİL</vs-th>
+          <vs-th sort-key="userUserName">KULLANICI ADI</vs-th>
           <vs-th sort-key="status">AKTİF</vs-th>
           <vs-th sort-key="branchName">BRANŞ</vs-th>
-          <vs-th sort-key="teacherPosition">YETKİ</vs-th>
+          <vs-th sort-key="userPosition">YETKİ</vs-th>
           <vs-th sort-key="department.departmentName">BÖLÜM</vs-th>
           <vs-th>Düzenle / Sil</vs-th>
         </template>
@@ -76,15 +76,15 @@
             <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
               <vs-td>
                 <p class="font-medium truncate">
-                  {{ tr.teacherFirstName+' '+tr.teacherMediumName+' '+
-                  tr.teacherLastName}}
+                  {{ tr.userFirstName+' '+tr.userMediumName+' '+
+                  tr.userLastName}}
                 </p>
               </vs-td>
               <vs-td>
-                <p class="font-medium truncate">{{ tr.teacherMail }}</p>
+                <p class="font-medium truncate">{{ tr.userMail }}</p>
               </vs-td>
               <vs-td>
-                <p class="font-medium truncate">{{ tr.teacherUserName }}</p>
+                <p class="font-medium truncate">{{ tr.userNickName }}</p>
               </vs-td>
               <vs-td>
                 <vs-button
@@ -147,8 +147,8 @@ deleteItemId:null,
       addNewDataSidebar: false,
       sidebarData: {},
        positionList: [
-        { teacherPosition: "Yönetici", id: 1 },
-        { teacherPosition: "Öğretmen", id: 2 }
+        { userPosition: "Master Admin", id: 1 },
+        { userPosition: "Öğretmen", id: 2 }
       ],
     };
   },
@@ -183,7 +183,7 @@ deleteItemId:null,
     },
     positionFilter(id) {
       let position=this.positionList.filter(item => item.id == id);
-      return position[0].teacherPosition;
+      return position[0].userPosition;
     
     },
     deleteTeacher() {

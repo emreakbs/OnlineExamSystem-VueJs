@@ -19,7 +19,7 @@
       <div class="p-8">
         <div class="vx-row mb-2">
           <div class="vx-col w-full">
-            <vs-input class="w-full" label-placeholder="Branş Adı" v-model="branchName" />
+            <vs-input class="w-full" label="Branş Adı" v-model="branchName" />
           </div>
         </div>
       </div>

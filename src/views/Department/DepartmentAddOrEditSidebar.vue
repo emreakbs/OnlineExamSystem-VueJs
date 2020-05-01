@@ -19,12 +19,13 @@
       <div class="p-8">
         <div class="vx-row mb-2">
           <div class="vx-col w-full">
-            <vs-input class="w-full" label-placeholder="Bölüm Adı" v-model="departmentName" />
+            <vs-input class="w-full" label="Bölüm Adı" v-model="departmentName" />
           </div>
         </div>
         <div class="vx-row mb-2">
         
            <div class="vx-col w-full mt-4">
+             <label class="vs-input--label">Okul Adı</label>
              <v-select id="schoolName" label="schoolName"  v-model="schoolName" :options="schoolList" />
           </div>
         </div>

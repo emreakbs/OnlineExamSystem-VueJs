@@ -19,66 +19,71 @@
       <div class="p-8">
         <div class="vx-row mb-2">
           <div class="vx-col w-full">
-            <vs-input class="w-full" label-placeholder="Adı" v-model="teacherFirstName" />
+            <vs-input class="w-full" label="Adı" v-model="userFirstName" />
           </div>
         </div>
         <div class="vx-row mb-2">
           <div class="vx-col w-full">
-            <vs-input class="w-full" label-placeholder="İkinci Adı" v-model="teacherMediumName" />
+            <vs-input class="w-full" label="İkinci Adı" v-model="userMediumName" />
           </div>
         </div>
 
         <div class="vx-row mb-2">
           <div class="vx-col w-full">
-            <vs-input class="w-full" label-placeholder="Soyadı" v-model="teacherLastName" />
+            <vs-input class="w-full" label="Soyadı" v-model="userLastName" />
           </div>
         </div>
         <div class="vx-row mb-2">
           <div class="vx-col w-full">
-            <vs-input class="w-full" label-placeholder="Kullanıcı Adı" v-model="teacherNickname" />
+            <vs-input class="w-full" label="Kullanıcı Adı" v-model="userNickName" />
+          </div>
+        </div>
+        <div class="vx-row mb-2">
+          <div class="vx-col w-full">
+            <vs-input class="w-full" label="Mail" v-model="userMail" />
           </div>
         </div>
         <div class="vx-row mb-2" v-if="Object.entries(this.data).length === 0">
           <div class="vx-col w-full">
-            <vs-input class="w-full" label-placeholder="Şifre" v-model="teacherPassword" />
+            <vs-input class="w-full" type="password" label="Şifre" v-model="userPassword" />
           </div>
         </div>
         <div class="vx-row mb-2" v-if="Object.entries(this.data).length === 0">
           <div class="vx-col w-full">
             <vs-input
               class="w-full"
-              label-placeholder="Şifre (Tekrar)"
-              v-model="teacherPasswordRetry"
+              type="password"
+              label="Şifre (Tekrar)"
+              v-model="userPasswordRetry"
             />
           </div>
         </div>
+        
         <div class="vx-row mb-2">
           <div class="vx-col w-full">
-            <vs-input class="w-full" label-placeholder="Mail" v-model="teacherMail" />
-          </div>
-        </div>
-        <div class="vx-row mb-2">
-          <div class="vx-col w-full mt-4">
+            <label class="vs-input--label">Branş Adı</label>
             <v-select
               id="branchName"
               label="branchName"
-              v-model="teacherBranch"
+              v-model="userBranch"
               :options="branchList"
             />
           </div>
         </div>
         <div class="vx-row mb-2">
-          <div class="vx-col w-full mt-4">
+          <div class="vx-col w-full">
+            <label class="vs-input--label" >Yetki Seviyesi</label>
             <v-select
-              id="teacherPosition"
-              label="teacherPosition"
-              v-model="teacherPosition"
+              id="userPosition"
+              label="userPosition"
+              v-model="userPosition"
               :options="positionList"
             />
           </div>
         </div>
         <div class="vx-row mb-2">
-          <div class="vx-col w-full mt-4">
+          <div class="vx-col w-full">
+            <label class="vs-input--label">Bölüm Adı</label>
             <v-select
               id="departmentId"
               label="departmentName"
@@ -93,7 +98,7 @@
     <div class="flex flex-wrap items-center p-6" slot="footer">
       <vs-button
         class="mr-6"
-        @click="submitData( teacherId ? 'edit' : 'add')"
+        @click="submitData( userId ? 'edit' : 'add')"
         :disabled="!isFormValid"
       >Gönder</vs-button>
       <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">Vazgeç</vs-button>
@@ -142,23 +147,23 @@ export default {
     isFormValid() {
       if (Object.entries(this.data).length === 0) {
         return (
-          this.teacherFirstName &&
-          this.teacherLastName &&
-          this.teacherNickname &&
-          this.teacherMail &&
-          this.teacherBranch &&
-          this.teacherPosition &&
+          this.userFirstName &&
+          this.userLastName &&
+          this.userNickName &&
+          this.userMail &&
+          this.userBranch &&
+          this.userPosition &&
           this.departmentId &&
-          this.teacherPassword === this.teacherPasswordRetry
+          this.userPassword === this.userPasswordRetry
         );
       }
       return (
-        this.teacherFirstName &&
-        this.teacherLastName &&
-        this.teacherNickname &&
-        this.teacherMail &&
-        this.teacherBranch &&
-        this.teacherPosition &&
+        this.userFirstName &&
+        this.userLastName &&
+        this.userNickName &&
+        this.userMail &&
+        this.userBranch &&
+        this.userPosition &&
         this.departmentId
       );
     }
@@ -167,19 +172,19 @@ export default {
     return {
       options: [],
       positionList: [
-        { teacherPosition: "Yönetici", id: 1 },
-        { teacherPosition: "Öğretmen", id: 2 }
+        { userPosition: "Master Admin", id: 1 },
+        { userPosition: "Öğretmen", id: 2 }
       ],
-      teacherId: null,
-      teacherFirstName: "",
-      teacherMediumName: "",
-      teacherLastName: "",
-      teacherMail: "",
-      teacherNickname: "",
-      teacherPassword: "",
-      teacherPasswordRetry: "",
-      teacherBranch: null,
-      teacherPosition: null,
+      userId: null,
+      userFirstName: "",
+      userMediumName: "",
+      userLastName: "",
+      userMail: "",
+      userNickName: "",
+      userPassword: "",
+      userPasswordRetry: "",
+      userBranch: null,
+      userPosition: null,
       departmentId: null,
       status: false,
       settings: {
@@ -190,45 +195,45 @@ export default {
   },
   methods: {
     initValues() {
-      if (this.data.teacherId) return;
-      this.teacherId = null;
-      this.teacherFirstName = "";
-      this.teacherMediumName = "";
-      this.teacherLastName = "";
-      this.teacherMail = "";
-      this.teacherNickname = "";
-      this.teacherPassword = "";
-      this.teacherPasswordRetry = "";
-      this.teacherBranch = null;
-      this.teacherPosition = "";
+      if (this.data.userId) return;
+      this.userId = null;
+      this.userFirstName = "";
+      this.userMediumName = "";
+      this.userLastName = "";
+      this.userMail = "";
+      this.userNickName = "";
+      this.userPassword = "";
+      this.userPasswordRetry = "";
+      this.userBranch = null;
+      this.userPosition = "";
       this.departmentId = "";
       this.status = false;
     },
     submitData(event) {
       let addData = {
-        teacherFirstName: this.teacherFirstName,
-        teacherMediumName: this.teacherMediumName,
-        teacherLastName: this.teacherLastName,
-        teacherMail: this.teacherMail,
-        teacherUserName: this.teacherNickname,
-        teacherPassword: this.teacherPassword,
-        userLevel: this.teacherPosition[0]
-          ? this.teacherPosition[0].id
-          : this.teacherPosition.id,
+        userFirstName: this.userFirstName,
+        userMediumName: this.userMediumName,
+        userLastName: this.userLastName,
+        userMail: this.userMail,
+        userNickName: this.userNickName,
+        userPassword: this.userPassword,
+        userLevel: this.userPosition[0]
+          ? this.userPosition[0].id
+          : this.userPosition.id,
         departmentId: this.departmentId[0]
           ? this.departmentId[0].id
           : this.departmentId.id,
-        branchId: this.teacherBranch[0]
-          ? this.teacherBranch[0].id
-          : this.teacherBranch.id,
+        branchId: this.userBranch[0]
+          ? this.userBranch[0].id
+          : this.userBranch.id,
         status: this.status
       };
       if (event == "add") {
-        addData.teacherPasswordRetry = this.teacherPasswordRetry;
+        addData.userPasswordRetry = this.userPasswordRetry;
 
         this.$store.dispatch("teacher/setTeacher", addData);
       } else {
-        addData.id = this.teacherId;
+        addData.id = this.userId;
         this.$store.dispatch("teacher/editTeacher", addData);
       }
       this.isSidebarActiveLocal = false;
@@ -251,28 +256,28 @@ export default {
       } else {
         let {
           id,
-          teacherFirstName,
-          teacherMediumName,
-          teacherLastName,
-          teacherMail,
-          teacherUserName,
-          teacherPassword,
-          teacherPasswordRetry,
+          userFirstName,
+          userMediumName,
+          userLastName,
+          userMail,
+          userNickName,
+          userPassword,
+          userPasswordRetry,
           branch,
           userLevel,
           department,
           status
         } = JSON.parse(JSON.stringify(this.data));
-        this.teacherId = id;
-        this.teacherFirstName = teacherFirstName;
-        this.teacherMediumName = teacherMediumName;
-        this.teacherLastName = teacherLastName;
-        this.teacherMail = teacherMail;
-        this.teacherNickname = teacherUserName;
-        this.teacherPassword = teacherPassword;
-        this.teacherPasswordRetry = teacherPasswordRetry;
-        this.teacherBranch = [{ branchName: branch.branchName, id: branch.id }];
-        this.teacherPosition = this.positionFilter(userLevel);
+        this.userId = id;
+        this.userFirstName = userFirstName;
+        this.userMediumName = userMediumName;
+        this.userLastName = userLastName;
+        this.userMail = userMail;
+        this.userNickName = userNickName;
+        this.userPassword = userPassword;
+        this.userPasswordRetry = userPasswordRetry;
+        this.userBranch = [{ branchName: branch.branchName, id: branch.id }];
+        this.userPosition = this.positionFilter(userLevel);
         this.departmentId = [
           { departmentName: department.departmentName, id: department.id }
         ];

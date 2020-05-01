@@ -19,12 +19,12 @@
       <div class="p-8">
         <div class="vx-row mb-2">
           <div class="vx-col w-full">
-            <vs-input class="w-full" label-placeholder="Okul Adı" v-model="schoolName"/>
+            <vs-input class="w-full" label="Okul Adı" v-model="schoolName"/>
           </div>
         </div>
         <div class="vx-row mb-2">
           <div class="vx-col w-full">
-            <vs-input class="w-full" label-placeholder="Web Site" v-model="schoolWebSite"/>
+            <vs-input class="w-full" label="Web Site" v-model="schoolWebSite"/>
           </div>
         </div>
       </div>

@@ -44,10 +44,10 @@
                     <vs-checkbox v-model="checkbox_remember_me" class="mb-3">Beni Hatırla</vs-checkbox>
                     <router-link class="float-right" to>Şifremi Unuttum?</router-link>
                   </div>
-                  <vs-button type="border">
+                  <!-- <vs-button type="border">
                     <router-link to >Kayıt Ol</router-link>
-                  </vs-button>
-                  <vs-button to="/home" class="float-right">Giriş Yap</vs-button>
+                  </vs-button> -->
+                  <vs-button to="/home" class="float-right mb-2">Giriş Yap</vs-button>
                 </div>
               </div>
             </div>
