@@ -28,6 +28,10 @@ export const config = {
       "DELETE_TEACHER":"Teacher/Teacher/RemoveTeacher/",
       "EDIT_TEACHER":"Teacher/Teacher/EditTeacher",
     },
+    "USER":{
+      "LOGIN":"User/User/SignIn",
+      "LOGOUT":"User/User/SignOut",
+    },
   },
   createRequestUrl(url, id, service) {
     let _url;

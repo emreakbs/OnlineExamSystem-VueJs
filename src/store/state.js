@@ -19,7 +19,8 @@ const userDefaults = {
 // /////////////////////////////////////////////
 // State
 // /////////////////////////////////////////////
-
+// navbarSearchAndPinList["Sayfalar"].data= navbarSearchAndPinList["Sayfalar"].data.filter(item=>item.rule<"1")
+debugger
 const state = {
     AppActiveUser           : userDefaults,
     bodyOverlay             : false,

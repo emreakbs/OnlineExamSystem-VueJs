@@ -10,6 +10,7 @@ import school from "./School/school"
 import branch from "./Branch/branch"
 import department from "./Department/department"
 import teacher from "./Teacher/teacher"
+import user from"./User/user"
 
 Vue.use(Vuex)
 
@@ -22,7 +23,8 @@ export default new Vuex.Store({
         school,
         branch,
         department,
-        teacher
+        teacher,
+        user
     },
     strict: process.env.NODE_ENV !== 'production'
 })

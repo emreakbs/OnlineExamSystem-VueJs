@@ -42,12 +42,12 @@ const router = new Router({
         // =============================================================================
         // Theme Routes
         // =============================================================================
-
         {
           path: '/home',
           name: 'home',
           component: () => import('./views/Home.vue'),
           meta: {
+            rule:2,
             breadcrumb: [
               { title: 'Home', url: '/' },
               { title: 'Ana Sayfa', active: true },
@@ -59,6 +59,7 @@ const router = new Router({
           name: 'okulislemleri',
           component: () => import('./views/School.vue'),
           meta: {
+            rule:0,
             breadcrumb: [
               { title: '', url: '/' },
               { title: 'Okul İşlemleri', active: true },
@@ -70,6 +71,7 @@ const router = new Router({
           name: 'ogretmenislemleri',
           component: () => import('./views/Teacher.vue'),
           meta: {
+            rule:1,
             breadcrumb: [
               { title: '', url: '/' },
               { title: 'Öğretmen İşlemleri', active: true },
@@ -81,6 +83,7 @@ const router = new Router({
           name: 'bransislemleri',
           component: () => import('./views/Branch.vue'),
           meta: {
+            rule:1,
             breadcrumb: [
               { title: '', url: '/' },
               { title: 'Branş İşlemleri', active: true },
@@ -92,6 +95,7 @@ const router = new Router({
           name: 'bolumislemleri',
           component: () => import('./views/Department.vue'),
           meta: {
+            rule:1,
             breadcrumb: [
               { title: '', url: '/' },
               { title: 'Bölüm İşlemleri', active: true },

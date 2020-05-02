@@ -1,8 +1,11 @@
+import state from "./state"
+
 const getters = {
 
 	// COMPONENT
 		// vx-autosuggest
-	// starredPages: state => state.navbarSearchAndPinList.data.filter((page) => page.highlightAction),
+  // starredPages: state => state.navbarSearchAndPinList.data.filter((page) => page.highlightAction),
+  navbarSearchAndPinList:state=>state.navbarSearchAndPinList.data.filter((item)=>item.rule<1),
   windowBreakPoint: state => {
 
     // This should be same as tailwind. So, it stays in sync with tailwind utility classes

@@ -66,7 +66,7 @@
           <vs-th sort-key="userUserName">KULLANICI ADI</vs-th>
           <vs-th sort-key="status">AKTİF</vs-th>
           <vs-th sort-key="branchName">BRANŞ</vs-th>
-          <vs-th sort-key="userPosition">YETKİ</vs-th>
+          <vs-th sort-key="userLevel">YETKİ</vs-th>
           <vs-th sort-key="department.departmentName">BÖLÜM</vs-th>
           <vs-th>Düzenle / Sil</vs-th>
         </template>
@@ -147,14 +147,15 @@ deleteItemId:null,
       addNewDataSidebar: false,
       sidebarData: {},
        positionList: [
-        { userPosition: "Master Admin", id: 1 },
-        { userPosition: "Öğretmen", id: 2 }
+        { userLevel: "Master Admin", id: 1 },
+        { userLevel: "Öğretmen", id: 2 }
       ],
     };
   },
 
   computed: {
     data() {
+      debugger
       return this.$store.state.teacher.teacherList;
     },
     currentPage() {
@@ -183,7 +184,7 @@ deleteItemId:null,
     },
     positionFilter(id) {
       let position=this.positionList.filter(item => item.id == id);
-      return position[0].userPosition;
+      return position[0].userLevel;
     
     },
     deleteTeacher() {

@@ -33,8 +33,26 @@ export const globalEvents = new Vue({
         text: loadMessage[index]
       })
     },
-    closeLoading(){
+    closeLoading() {
       this.$vs.loading.close();
+    },
+    authControl() {
+      let authUser = this.getAuthUser();
+      let nowDate = new Date().getTime();
+      if (authUser == null ){
+        localStorage.setItem(btoa("authUser"),JSON.stringify({userLevel:5}))
+        location.href = "/";
+      } 
+      else if ((nowDate - authUser.loginDate) > 1000 * 60 * 60 * 24 * 2) {
+        location.href = "/"
+      }
+    },
+    getAuthUser() {
+      return JSON.parse(localStorage.getItem(btoa("authUser")));
+    },
+    userLevelControl(){
+      let authUser=this.getAuthUser();
+      
     }
   }
 });

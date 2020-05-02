@@ -25,7 +25,7 @@
                     icon="icon icon-user"
                     icon-pack="feather"
                     label-placeholder="Email veya Kullanıcı Adı"
-                    v-model="email"
+                    v-model="mailOrUserName"
                     class="w-full mt-8"
                   />
 
@@ -46,8 +46,8 @@
                   </div>
                   <!-- <vs-button type="border">
                     <router-link to >Kayıt Ol</router-link>
-                  </vs-button> -->
-                  <vs-button to="/home" class="float-right mb-2">Giriş Yap</vs-button>
+                  </vs-button>-->
+                  <vs-button @click="login" class="float-right mb-2">Giriş Yap</vs-button>
                 </div>
               </div>
             </div>
@@ -62,12 +62,23 @@
 export default {
   data() {
     return {
-      email: "",
+      mailOrUserName: "",
       password: "",
       checkbox_remember_me: false
     };
   },
-  methods: {}
+  methods: {
+    login() {
+      var user = {
+        UserName: this.mailOrUserName,
+        UserMailAddress: this.mailOrUserName,
+        UserPassword: this.password
+      };
+      this.$store.dispatch("user/login", user);
+    }
+  },
+  created(){
+  }
 };
 </script>
 
